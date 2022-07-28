@@ -38,6 +38,7 @@ project "CataclysmEngine"
 	files { 
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/src/Core/**.cpp",
+		"%{prj.name}/src/Renderer/**.cpp",
 	}
 
 	filter "system:windows"		

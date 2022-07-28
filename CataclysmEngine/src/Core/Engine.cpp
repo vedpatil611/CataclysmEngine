@@ -1,6 +1,7 @@
 #include <Core/Engine.h>
 
 #include <stdexcept>
+#include <Core/ResourceManager.h>
 
 Engine* Engine::GetRef() {
     return s_Ref = (s_Ref == nullptr) ? new Engine() : s_Ref;
@@ -26,6 +27,11 @@ void Engine::Init() {
     glfwSetWindowCloseCallback(m_Window, &Engine::OnWindowClose);
 
     m_IsRunning = true;
+
+    #ifdef DEBUG
+    ResourceManager::LoadShader("basic", "shaders/vert.glsl", "shaders/frag.glsl");
+    ResourceManager::LoadTexture("woody", "assets/woody.png");
+    #endif
 }
 
 void Engine::Update(float delta) {
@@ -48,6 +54,16 @@ void Engine::Terminate() {
     auto* e = s_Ref;
     s_Ref = nullptr;
     delete e;
+}
+
+void Engine::SetWindowWidth(int32_t width) {
+    m_WindowWidth = width;
+    glfwSetWindowSize(m_Window, m_WindowWidth, m_WindowHeight);
+}
+
+void Engine::SetWindowHeight(int32_t height) {
+    m_WindowHeight = height;
+    glfwSetWindowSize(m_Window, m_WindowWidth, m_WindowHeight);
 }
 
 Engine::Engine() {

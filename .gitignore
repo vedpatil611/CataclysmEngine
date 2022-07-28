@@ -6,4 +6,4 @@ intermediate
 
 Makefile
 
-null.d
+*.d
