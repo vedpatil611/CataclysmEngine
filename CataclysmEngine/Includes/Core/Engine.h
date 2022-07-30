@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Renderer/SpriteRenderer.h"
 
 class Engine {
 public:
@@ -44,6 +45,8 @@ private:
     int32_t m_WindowWidth = 1920, m_WindowHeight = 1080;            // Window current width and height
 
     bool m_IsRunning = false;                                   // Engine running state
+
+    SpriteRenderer* m_SpriteRenderer = nullptr;
 
     Engine();
     inline static Engine* s_Ref = nullptr;

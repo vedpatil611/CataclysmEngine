@@ -29,8 +29,10 @@ void Engine::Init() {
     m_IsRunning = true;
 
     #ifdef DEBUG
-    ResourceManager::LoadShader("basic", "shaders/vert.glsl", "shaders/frag.glsl");
+    auto* shader = ResourceManager::LoadShader("basic", "shaders/vert.glsl", "shaders/frag.glsl");
     ResourceManager::LoadTexture("woody", "assets/woody.png");
+
+    m_SpriteRenderer = new SpriteRenderer(shader);
     #endif
 }
 
@@ -41,6 +43,10 @@ void Engine::Update(float delta) {
 void Engine::Render() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    #ifdef DEBUG
+    m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("woody"), { 0.2, 0.2 }, { 0.2, 0.2 });
+    #endif
 
     glfwSwapBuffers(m_Window);
 }

@@ -33,6 +33,19 @@ void Shader::Unbind() const {
     glUseProgram(0);
 }
 
+void Shader::SetUniformMat4f(const char* name, const glm::mat4& mat) {
+    auto it = m_UniformCache.find(name);
+    
+    int location;
+
+    if (it == m_UniformCache.end())
+        location = GetUniformLocation(name);
+    else
+        location = it->second;
+
+    glUniformMatrix4fv(location, 1, false, &mat[0][0]);
+}
+
 uint32_t Shader::CompileShader(uint32_t type, const char* srcPath) {
     uint32_t id = glCreateShader(type);
 

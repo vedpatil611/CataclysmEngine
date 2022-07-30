@@ -10,6 +10,8 @@ Shader* ResourceManager::LoadShader(const char* name, const char* vertPath, cons
 }
 
 Texture* ResourceManager::LoadTexture(const char* name, const char* path, bool alpha) {
+    stbi_set_flip_vertically_on_load(true);  
+
     Texture* tex = new Texture();
     if (alpha) {
         tex->SetImageFormat(GL_RGBA);

@@ -5,11 +5,12 @@
 
 class Texture {
 public:
+    // Construct a new Texture object
     Texture();
     ~Texture();
 
     /**
-     * Generate and load texture on gpu
+     * @brief Generate and load texture on gpu
      * 
      * @param width Width of texture
      * @param height Height of texture

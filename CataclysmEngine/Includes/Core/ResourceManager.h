@@ -8,7 +8,7 @@
 class ResourceManager {
 public:
     /**
-     * Load Shader into Resource Manager
+     * @brief Load Shader into Resource Manager
      * 
      * @param name Name id of shader
      * @param vertPath Vertex shader source path for shader
@@ -19,7 +19,7 @@ public:
     static Shader* LoadShader(const char* name, const char* vertPath, const char* fragPath);
     
     /**
-     * Load Texture into Resource Manager
+     * @brief Load Texture into Resource Manager
      * 
      * @param name Name id of texture
      * @param path Path to texture file

@@ -2,10 +2,13 @@
 
 #include <string>
 #include <unordered_map>
+#include <glm/glm.hpp>
 
 class Shader {
 public:
     /**
+     * @brief Construct a new Shader object
+     * 
      * @param vertPath Vertex shader source code path
      * @param fragPath Fragment shader source code path
      */
@@ -17,6 +20,14 @@ public:
 
     // Unbind this shader from current usage
     void Unbind() const;
+
+    /**
+     * @brief Set 4x4 matrix uniform value in shader 
+     * 
+     * @param name Name of uniform
+     * @param mat Reference to matrix object
+     */
+    void SetUniformMat4f(const char* name, const glm::mat4& mat);
 private:
     // Shader id
     uint32_t m_Id;
@@ -25,7 +36,7 @@ private:
     std::unordered_map<std::string, int> m_UniformCache;
 
     /**
-     * Compile shader of given type from source
+     * @brief Compile shader of given type from source
      * 
      * @param type Shader type enum
      * @param srcPath Shader source code path
@@ -44,7 +55,7 @@ private:
     void PreCacheUniforms();
 
     /**
-     * Get location of uniform
+     * @brief Get location of uniform
      * 
      * @param name Name of uniform
      * 
