@@ -25,10 +25,10 @@ public:
     void Terminate();
 
     // Get window width
-    inline int32_t GetWindowWidth() const { return m_WindowWidth; }
+    inline int32_t WindowWidth() const { return m_WindowWidth; }
 
     // Get window height
-    inline int32_t GetWindowHeight() const { return m_WindowHeight; }
+    inline int32_t WindowHeight() const { return m_WindowHeight; }
 
     // Set current window width
     inline void SetWindowWidth(int32_t width);
@@ -39,12 +39,20 @@ public:
     // Get Engine running status
     inline bool IsRunning() const { return m_IsRunning; }
 
+    // Return const reference to projection matrix
+    inline const glm::mat4& Projection() const { return m_Projection; }
+
+    // Set projection matrix
+    inline void SetProjection(const glm::mat4& proj) { m_Projection = proj; }
+
     ~Engine();
 private:
     GLFWwindow* m_Window = nullptr;                             // Pointer to glfw window
-    int32_t m_WindowWidth = 1920, m_WindowHeight = 1080;            // Window current width and height
+    int32_t m_WindowWidth = 1920, m_WindowHeight = 1080;        // Window current width and height
 
     bool m_IsRunning = false;                                   // Engine running state
+
+    glm::mat4 m_Projection;
 
     SpriteRenderer* m_SpriteRenderer = nullptr;
 

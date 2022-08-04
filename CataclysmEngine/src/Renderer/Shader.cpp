@@ -1,5 +1,6 @@
 #include <Renderer/Shader.h>
 
+#include <cstdio>
 #include <glad/glad.h>
 #include <Utils/File.h>
 

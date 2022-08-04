@@ -1,7 +1,12 @@
 #include <Core/Engine.h>
 
+#include <glm/ext/matrix_clip_space.hpp>
 #include <stdexcept>
 #include <Core/ResourceManager.h>
+#include "Renderer/SpriteRenderer.h"
+#include "Renderer/StaticSprite.h"
+
+StaticSprite* woodySprite = nullptr;
 
 Engine* Engine::GetRef() {
     return s_Ref = (s_Ref == nullptr) ? new Engine() : s_Ref;
@@ -26,13 +31,19 @@ void Engine::Init() {
 
     glfwSetWindowCloseCallback(m_Window, &Engine::OnWindowClose);
 
+    m_Projection = glm::ortho(0.0f, 720.0f, 0.0f, 576.0f, -1.0f, 1.0f);
+
     m_IsRunning = true;
 
     #ifdef DEBUG
     auto* shader = ResourceManager::LoadShader("basic", "shaders/vert.glsl", "shaders/frag.glsl");
-    ResourceManager::LoadTexture("woody", "assets/woody.png");
+    shader->SetUniformMat4f("u_Proj", m_Projection);
+    
+    auto* woodyTex = ResourceManager::LoadTexture("woody", "assets/woody.png");
 
     m_SpriteRenderer = new SpriteRenderer(shader);
+
+    woodySprite = new StaticSprite(woodyTex, shader);
     #endif
 }
 
@@ -45,7 +56,10 @@ void Engine::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     #ifdef DEBUG
-    m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("woody"), { 0.2, 0.2 }, { 0.2, 0.2 });
+    ResourceManager::GetShader("basic")->SetUniformMat4f("u_Proj", m_Projection);
+    // m_SpriteRenderer->DrawSprite(ResourceManager::GetTexture("woody"), { 0.2, 0.2 }, { 0.2, 0.2 });
+    woodySprite->DrawInstance({400.0f, 400.0f});
+    woodySprite->DrawInstance({1.0f, 1.0f}, {5.0f, 5.0f});
     #endif
 
     glfwSwapBuffers(m_Window);

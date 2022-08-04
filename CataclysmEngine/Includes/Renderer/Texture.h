@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <stdint.h>
 #include <glad/glad.h>
 
@@ -29,6 +30,12 @@ public:
 
     // Set format of image
     inline void SetImageFormat(int32_t format) { m_ImageFormat = format; }
+
+    // Get widht of texture image
+    inline int32_t Width() const  { return m_Width; }
+
+    // Get Height of texture image
+    inline int32_t Height() const { return m_Height; }
 private:
     uint32_t m_Id;
     int32_t m_Width = 0, m_Height = 0;
