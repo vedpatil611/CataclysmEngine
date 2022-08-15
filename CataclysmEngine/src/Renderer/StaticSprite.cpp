@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdio>
 #include <glm/gtc/matrix_transform.hpp>
+#include <spdlog/spdlog.h>
 
 StaticSprite::StaticSprite(Texture* tex, Shader* shader)
     :m_Texture(tex), m_Shader(shader) {
@@ -57,12 +58,12 @@ StaticSprite::~StaticSprite() {
 
 void StaticSprite::DrawInstance(const glm::vec2 pos, const glm::vec2 scale, float rotate) {
     if (m_Texture == nullptr) {
-        printf("No texture provided\n");
+        spdlog::warn("No textire provided");
         return;
     }
 
     if (m_Shader == nullptr) {
-        printf("No shader provided");
+        spdlog::warn("No shader provided");
         return;
     }
 

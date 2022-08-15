@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <spdlog/spdlog.h>
 
 SpriteRenderer::SpriteRenderer(Shader* shader)
     :m_Shader(shader) {
@@ -52,7 +53,7 @@ SpriteRenderer::~SpriteRenderer() {
 
 void SpriteRenderer::DrawSprite(Texture* tex, const glm::vec2 pos, const glm::vec2 size, float rotate) {
     if (tex == nullptr) {
-        printf("No texture provided\n");
+        spdlog::warn("No texture provided");
         return;
     }
 

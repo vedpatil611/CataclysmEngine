@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <glad/glad.h>
 #include <Utils/File.h>
+#include <spdlog/spdlog.h>
 
 Shader::Shader(const char* vertPath, const char* fragPath) {
     m_Id = glCreateProgram();
@@ -65,7 +66,8 @@ uint32_t Shader::CompileShader(uint32_t type, const char* srcPath) {
 
         char* message = new char[len];
         glGetShaderInfoLog(id, len, &len, message);
-        printf("Failed to compile %s shader: %s", type == GL_VERTEX_SHADER ? "vertex" : "fragment", message);
+        spdlog::error("Failed to complile {} shader: {}", type == GL_VERTEX_SHADER ? "vertex" : "fragment", message);
+        // printf("Failed to compile %s shader: %s", type == GL_VERTEX_SHADER ? "vertex" : "fragment", message);
         delete[] message;
 
         glDeleteShader(id);

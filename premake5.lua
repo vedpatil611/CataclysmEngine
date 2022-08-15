@@ -21,10 +21,10 @@ project "CataclysmEngine"
 	cppdialect "C++17"
 	systemversion "latest"
 	inlining "Auto"
-
+	
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("intermediate/" .. outputdir .. "/%{prj.name}")
-
+		
 	includedirs {
 		"%{prj.name}/Includes/",
 		"%{IncludeDirs.GLAD}",
@@ -33,6 +33,13 @@ project "CataclysmEngine"
 	links {
 		"glfw",
 		"glad",
+		"spdlog",
+		"fmt",
+		"pthread"
+	}
+
+	defines {
+		"SPDLOG_SHARED_LIB", "SPDLOG_COMPILED_LIB", "SPDLOG_FMT_EXTERNAL"
 	}
 
 	files { 

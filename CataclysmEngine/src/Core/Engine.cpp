@@ -2,6 +2,7 @@
 
 #include <glm/ext/matrix_clip_space.hpp>
 #include <stdexcept>
+#include <spdlog/spdlog.h>
 #include <Core/ResourceManager.h>
 #include "Renderer/SpriteRenderer.h"
 #include "Renderer/StaticSprite.h"
@@ -13,21 +14,30 @@ Engine* Engine::GetRef() {
 }
 
 void Engine::Init() {
+    // spdlog::info("Failed to init glfw");
+    // spdlog::warn("Failed to init glfw");
+    // spdlog::error("Failed to init glfw");
+    // spdlog::critical("Failed to init glfw");
+    
     if (!glfwInit()) {
+        spdlog::critical("Failed to init glfw");
         throw std::runtime_error("Failed to init glfw");
     }
 
     m_Window = glfwCreateWindow(m_WindowWidth, m_WindowHeight, "CatalysmEngine", nullptr, nullptr);
     if (!m_Window) {
         glfwTerminate();
+        spdlog::critical("Failed to create window");
         throw std::runtime_error("Failed to create window");
     }
 
     glfwSetWindowUserPointer(m_Window, this);
 
     glfwMakeContextCurrent(m_Window);
-    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
+    if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
+        spdlog::critical("Failed to init glfw");
         throw std::runtime_error("Failed to init glad");
+    }
 
     glfwSetWindowCloseCallback(m_Window, &Engine::OnWindowClose);
 

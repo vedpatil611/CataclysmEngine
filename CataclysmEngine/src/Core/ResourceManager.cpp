@@ -1,4 +1,5 @@
 #include <Core/ResourceManager.h>
+#include <spdlog/spdlog.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <Vendors/stb/stb_image.h>
@@ -49,7 +50,7 @@ void ResourceManager::UnloadShader(const char* name) {
     auto it = s_Shaders.find(name);
 
     if (it == s_Shaders.end()) {
-        printf("Shader %s does not exist\n", name);
+        spdlog::warn("Shader {} does not exists", name);
     } else {
         delete it->second;
         s_Shaders.erase(it);
@@ -60,7 +61,7 @@ void ResourceManager::UnloadTexture(const char* name) {
     auto it = s_Textures.find(name);
 
     if (it == s_Textures.end()) {
-        printf("Texture %s does not exist\n", name);
+        spdlog::warn("Texture {} does not exists", name);
     } else {
         delete it->second;
         s_Textures.erase(it);
