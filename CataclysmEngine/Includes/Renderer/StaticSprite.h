@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include "Texture.h"
 #include <glm/glm.hpp>
+#include <memory>
 
 /**
  * @brief Static sprite generate its own vertex data from texture and thus has its own renderer
@@ -15,7 +16,7 @@ public:
      * @param tex Texture from which sprite is to be constructed
      * @param shader Shader progam which should be used to draw sprite
      */
-    StaticSprite(Texture* tex, Shader* shader);
+    StaticSprite(std::shared_ptr<Texture> tex, std::shared_ptr<Shader> shader);
 
     ~StaticSprite();
 
@@ -29,8 +30,8 @@ public:
     void DrawInstance(const glm::vec2 pos, const glm::vec2 scale = glm::vec2(1.0f, 1.0f), float rotate = 0.0f);
 private:
     uint32_t m_VBO, m_VAO, m_IBO;
-    Shader* m_Shader;
-    Texture* m_Texture;
+    std::shared_ptr<Shader> m_Shader;
+    std::shared_ptr<Texture> m_Texture;
 
     struct VertexData
     {

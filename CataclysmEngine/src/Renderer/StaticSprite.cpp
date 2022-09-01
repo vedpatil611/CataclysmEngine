@@ -6,7 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <spdlog/spdlog.h>
 
-StaticSprite::StaticSprite(Texture* tex, Shader* shader)
+StaticSprite::StaticSprite(std::shared_ptr<Texture> tex, std::shared_ptr<Shader> shader)
     :m_Texture(tex), m_Shader(shader) {
 
     auto width = tex->Width();

@@ -1,10 +1,11 @@
 #include <Renderer/SpriteRenderer.h>
 
+#include <GLFW/glfw3.h>
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <spdlog/spdlog.h>
 
-SpriteRenderer::SpriteRenderer(Shader* shader)
+SpriteRenderer::SpriteRenderer(std::shared_ptr<Shader> shader)
     :m_Shader(shader) {
 
     VertexData vertices[] = {
@@ -51,7 +52,7 @@ SpriteRenderer::~SpriteRenderer() {
     glDeleteVertexArrays(1, &m_VAO);
 }
 
-void SpriteRenderer::DrawSprite(Texture* tex, const glm::vec2 pos, const glm::vec2 size, float rotate) {
+void SpriteRenderer::DrawSprite(std::shared_ptr<Texture> tex, const glm::vec2 pos, const glm::vec2 size, float rotate) {
     if (tex == nullptr) {
         spdlog::warn("No texture provided");
         return;

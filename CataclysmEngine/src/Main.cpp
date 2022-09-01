@@ -2,7 +2,7 @@
 
 int main(int argc, char const *argv[])
 {
-    auto* engine = Engine::GetRef();
+    auto engine = Engine::GetRef();
 
     engine->Init();
 

@@ -1,6 +1,8 @@
 #include <Core/Engine.h>
 
+#include <GLFW/glfw3.h>
 #include <glm/ext/matrix_clip_space.hpp>
+#include <memory>
 #include <stdexcept>
 #include <spdlog/spdlog.h>
 #include <Core/ResourceManager.h>
@@ -9,8 +11,8 @@
 
 StaticSprite* woodySprite = nullptr;
 
-Engine* Engine::GetRef() {
-    return s_Ref = (s_Ref == nullptr) ? new Engine() : s_Ref;
+std::shared_ptr<Engine> Engine::GetRef() {
+    return s_Ref = (s_Ref == nullptr) ? std::shared_ptr<Engine>(new Engine()) : s_Ref;
 }
 
 void Engine::Init() {
@@ -23,6 +25,7 @@ void Engine::Init() {
         spdlog::critical("Failed to init glfw");
         throw std::runtime_error("Failed to init glfw");
     }
+
 
     m_Window = glfwCreateWindow(m_WindowWidth, m_WindowHeight, "CatalysmEngine", nullptr, nullptr);
     if (!m_Window) {
@@ -45,13 +48,16 @@ void Engine::Init() {
 
     m_IsRunning = true;
 
+    // m_Window = std::shared_ptr<GLFWwindow>(window);
+
     #ifdef DEBUG
-    auto* shader = ResourceManager::LoadShader("basic", "shaders/vert.glsl", "shaders/frag.glsl");
+    auto shader = ResourceManager::LoadShader("basic", "shaders/vert.glsl", "shaders/frag.glsl");
     shader->SetUniformMat4f("u_Proj", m_Projection);
     
-    auto* woodyTex = ResourceManager::LoadTexture("woody", "assets/woody.png");
+    auto woodyTex = ResourceManager::LoadTexture("woody", "assets/woody.png");
 
-    m_SpriteRenderer = new SpriteRenderer(shader);
+    // m_SpriteRenderer = new SpriteRenderer(shader);
+    m_SpriteRenderer = std::make_shared<SpriteRenderer>(shader);
 
     woodySprite = new StaticSprite(woodyTex, shader);
     #endif
@@ -81,9 +87,9 @@ void Engine::Events() {
 
 void Engine::Terminate() {
     m_IsRunning = false;
-    auto* e = s_Ref;
+    auto e = s_Ref;
     s_Ref = nullptr;
-    delete e;
+    e.reset();
 }
 
 void Engine::SetWindowWidth(int32_t width) {
@@ -102,11 +108,12 @@ Engine::Engine() {
 
 Engine::~Engine() {
     glfwDestroyWindow(m_Window);
+    m_Window = nullptr;
     glfwTerminate();
 }
 
 void Engine::OnWindowClose(GLFWwindow* window) {
-    auto* e = Engine::GetRef();
+    auto e = Engine::GetRef();
 
     e->m_IsRunning = false;
 }

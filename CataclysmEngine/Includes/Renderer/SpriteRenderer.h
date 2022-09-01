@@ -5,6 +5,7 @@
 #include "Renderer/Texture.h"
 #include <stdint.h>
 #include <vector>
+#include <memory>
 #include <glm/glm.hpp>
 
 class SpriteRenderer: public Renderer {
@@ -14,7 +15,7 @@ public:
      * 
      * @param shader Shader to be used for rendering
      */
-    SpriteRenderer(Shader* shader);
+    SpriteRenderer(std::shared_ptr<Shader> shader);
     ~SpriteRenderer();
 
     /**
@@ -25,10 +26,10 @@ public:
      * @param size Size to be draw
      * @param rotate Anti-clock wise rotation in degree
      */
-    void DrawSprite(Texture* tex, const glm::vec2 pos, const glm::vec2 size, float rotate = 0.0f);
+    void DrawSprite(std::shared_ptr<Texture> tex, const glm::vec2 pos, const glm::vec2 size, float rotate = 0.0f);
 private:
     uint32_t m_VBO, m_VAO, m_IBO;
-    Shader* m_Shader;
+    std::shared_ptr<Shader> m_Shader;
 
     struct VertexData
     {

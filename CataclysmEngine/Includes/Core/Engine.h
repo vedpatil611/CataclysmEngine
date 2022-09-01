@@ -3,11 +3,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "Renderer/SpriteRenderer.h"
+#include <memory>
 
 class Engine {
 public:
     // Get engine reference
-    static Engine* GetRef();
+    static std::shared_ptr<Engine> GetRef();
 
     //Initialize Engine
     void Init();
@@ -54,10 +55,10 @@ private:
 
     glm::mat4 m_Projection;
 
-    SpriteRenderer* m_SpriteRenderer = nullptr;
+    std::shared_ptr<SpriteRenderer> m_SpriteRenderer = nullptr;
 
     Engine();
-    inline static Engine* s_Ref = nullptr;
+    inline static std::shared_ptr<Engine> s_Ref = nullptr;
 
     // Window close callback
     static void OnWindowClose(GLFWwindow* window);

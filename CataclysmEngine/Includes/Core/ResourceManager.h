@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <Renderer/Shader.h>
@@ -16,7 +17,7 @@ public:
      * 
      * @return Pointer to newly created Shader. Return nullptr if failed
      */
-    static Shader* LoadShader(const char* name, const char* vertPath, const char* fragPath);
+    static std::shared_ptr<Shader> LoadShader(const char* name, const char* vertPath, const char* fragPath);
     
     /**
      * @brief Load Texture into Resource Manager
@@ -27,13 +28,13 @@ public:
      * 
      * @return Pointer to newly created Texture. Return nullptr if failed
      */
-    static Texture* LoadTexture(const char* name, const char* path, bool alpha = true);
+    static std::shared_ptr<Texture> LoadTexture(const char* name, const char* path, bool alpha = true);
 
     // Get shader from ResourceMananger
-    static Shader* GetShader(const char* name);
+    static std::shared_ptr<Shader> GetShader(const char* name);
 
     // Get texture from ResourceManager
-    static Texture* GetTexture(const char* name);
+    static std::shared_ptr<Texture> GetTexture(const char* name);
 
     // Unload and delete shader
     static void UnloadShader(const char* name);
@@ -44,6 +45,6 @@ public:
     // Clear all resources
     static void Clear();
 private:
-    inline static std::unordered_map<std::string, Shader*> s_Shaders;
-    inline static std::unordered_map<std::string, Texture*> s_Textures;
+    inline static std::unordered_map<std::string, std::shared_ptr<Shader>> s_Shaders;
+    inline static std::unordered_map<std::string, std::shared_ptr<Texture>> s_Textures;
 };
